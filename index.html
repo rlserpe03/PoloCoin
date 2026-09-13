@@ -535,7 +535,6 @@
                         <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
                             <label for="filtro-turma-ocorrencia-prof">1. Filtrar por Turma:</label>
                             <select id="filtro-turma-ocorrencia-prof" onchange="aoMudarTurmaFiltroOcorrencias()">
-                                <!-- Preenchido via JS -->
                             </select>
                         </div>
 
@@ -544,7 +543,6 @@
                             <label for="filtro-aluno-ocorrencia-prof">2. Filtrar por Aluno:</label>
                             <select id="filtro-aluno-ocorrencia-prof"
                                 onchange="carregarRelatorioOcorrenciasProfessor()">
-                                <!-- Preenchido dinamicamente com base na turma selecionada -->
                             </select>
                         </div>
                     </div>
@@ -913,41 +911,14 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT -->
+    <!-- JAVASCRIPT INTEGRADO COM SUPABASE -->
     <script>
-        const listaAvataresDisponiveis = ["🐣", "🦁", "🚀", "⚽", "🎨", "🦊", "⭐", "🎮", "👑", "🦄", "🐶", "🐱", "🤖", "🦸‍♂️", "🧙‍♂️"];
+        // Configuração da Conexão com o Supabase
+        const SUPABASE_URL = 'https://hfdyswoyeyzpscrfpdim.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_uuX4hyIvNl6JeXy7-Pux3w_gQvxG-6r';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // DADOS PADRÃO (Iniciais)
-        const turmasPadrao = ["3º Ano A", "7º Ano A"];
-        const professoresPadrao = [
-            { id: 1, nome: "Prof. Marcão", usuario: "prof.marcao", senha: "123", turmasAtribuidas: ["3º Ano A", "7º Ano A"] },
-            { id: 2, nome: "Prof. Ana", usuario: "prof.ana", senha: "123", turmasAtribuidas: ["3º Ano A"] }
-        ];
-        const alunosPadrao = [
-            {
-                id: 1, ra: "1001", nome: "Pedro Henrique Silva", senhaAluno: "123", usuarioPai: "pai.pedro1", senhaPai: "abc", turma: "3º Ano A", pontos: 120, avatar: "🦁",
-                ocorrencias: []
-            },
-            {
-                id: 2, ra: "1002", nome: "Pedro Henrique Santos", senhaAluno: "123", usuarioPai: "pai.pedro2", senhaPai: "abc", turma: "3º Ano A", pontos: 180, avatar: "🚀",
-                ocorrencias: [
-                    { texto: "Conversa sem autorização durante a aula.", autor: "Prof. Marcão", idProf: 1, data: "10/05/2026" },
-                    { texto: "Esqueceu o livro Didático.", autor: "Prof. Ana", idProf: 2, data: "11/05/2026" }
-                ]
-            },
-            {
-                id: 3, ra: "2001", nome: "Carlos Eduardo", senhaAluno: "123", usuarioPai: "pai.carlos", senhaPai: "abc", turma: "7º Ano A", pontos: 50, avatar: "⚽",
-                ocorrencias: [
-                    { texto: "Uso indevido do celular.", autor: "Prof. Marcão", idProf: 1, data: "12/05/2026" }
-                ]
-            }
-        ];
-        const produtosPadrao = [
-            { id: 1, nome: "Lata de Refrigerante", pontos: 100 },
-            { id: 2, nome: "Conjunto de Canetinhas", pontos: 150 },
-            { id: 3, nome: "15 Minutos Extra de Recreio", pontos: 200 }
-        ];
-        const pedidosPadrao = [];
+        const listaAvataresDisponiveis = ["🐣", "🦁", "🚀", "⚽", "🎨", "🦊", "⭐", "🎮", "👑", "🦄", "🐶", "🐱", "🤖", "🦸‍♂️", "🧙‍♂️"];
 
         let turmas = [];
         let professores = [];
@@ -961,27 +932,66 @@
         let turmaAtiva = "";
         let produtoEmEdicaoId = null;
 
-        // PERSISTÊNCIA COM LOCALSTORAGE
-        function carregarDados() {
-            const turmasSalvas = localStorage.getItem('escola_turmas');
-            const profsSalvos = localStorage.getItem('escola_professores');
-            const alunosSalvos = localStorage.getItem('escola_alunos');
-            const produtosSalvos = localStorage.getItem('escola_produtos');
-            const pedidosSalvos = localStorage.getItem('escola_pedidos');
+        // CARREGAMENTO DE DADOS EM TEMPO REAL VIA SUPABASE
+        async function carregarDados() {
+            try {
+                // Carregar Alunos
+                const { data: dataAlunos, error: errAlunos } = await supabaseClient.from('students').select('*');
+                if (errAlunos) console.error('Erro ao carregar alunos:', errAlunos);
+                else alunos = dataAlunos.map(a => ({
+                    id: a.id,
+                    ra: a.registration_number,
+                    nome: a.full_name,
+                    senhaAluno: a.student_password || '123',
+                    usuarioPai: a.parent_username || '',
+                    senhaPai: a.parent_password || '',
+                    turma: a.grade_level,
+                    pontos: a.total_points || 0,
+                    avatar: a.avatar || '🐣',
+                    ocorrencias: a.incidents_json || []
+                }));
 
-            turmas = turmasSalvas ? JSON.parse(turmasSalvas) : turmasPadrao;
-            professores = profsSalvos ? JSON.parse(profsSalvos) : professoresPadrao;
-            alunos = alunosSalvos ? JSON.parse(alunosSalvos) : alunosPadrao;
-            produtos = produtosSalvos ? JSON.parse(produtosSalvos) : produtosPadrao;
-            pedidos = pedidosSalvos ? JSON.parse(pedidosSalvos) : pedidosPadrao;
-        }
+                // Extrair lista de Turmas únicas
+                const turmasUnicas = [...new Set(alunos.map(a => a.turma))].filter(Boolean);
+                turmas = turmasUnicas.length > 0 ? turmasUnicas : ["3º Ano A", "7º Ano A"];
 
-        function salvarDados() {
-            localStorage.setItem('escola_turmas', JSON.stringify(turmas));
-            localStorage.setItem('escola_professores', JSON.stringify(professores));
-            localStorage.setItem('escola_alunos', JSON.stringify(alunos));
-            localStorage.setItem('escola_produtos', JSON.stringify(produtos));
-            localStorage.setItem('escola_pedidos', JSON.stringify(pedidos));
+                // Carregar Professores
+                const { data: dataProfs, error: errProfs } = await supabaseClient.from('teachers').select('*');
+                if (errProfs) console.error('Erro ao carregar professores:', errProfs);
+                else professores = dataProfs.map(p => ({
+                    id: p.id,
+                    nome: p.full_name,
+                    usuario: p.username || p.email,
+                    senha: p.password || '123',
+                    turmasAtribuidas: p.assigned_classes || []
+                }));
+
+                // Carregar Produtos
+                const { data: dataProds, error: errProds } = await supabaseClient.from('products').select('*');
+                if (errProds) console.error('Erro ao carregar produtos:', errProds);
+                else produtos = dataProds.map(p => ({
+                    id: p.id,
+                    nome: p.name || p.nome,
+                    pontos: p.points || p.pontos
+                }));
+
+                // Carregar Pedidos
+                const { data: dataPedidos, error: errPedidos } = await supabaseClient.from('orders').select('*');
+                if (!errPedidos && dataPedidos) {
+                    pedidos = dataPedidos.map(p => ({
+                        id: p.id,
+                        alunoId: p.student_id,
+                        alunoNome: p.student_name,
+                        alunoTurma: p.student_grade,
+                        produtoNome: p.product_name,
+                        pontosGastos: p.points_spent,
+                        data: p.created_at,
+                        entregue: p.delivered || false
+                    }));
+                }
+            } catch (err) {
+                console.error("Erro ao sincronizar com o Supabase:", err);
+            }
         }
 
         carregarDados();
@@ -996,8 +1006,8 @@
             else labelIdentificador.innerText = "Usuário do ADM:";
         }
 
-        function fazerLogin() {
-            carregarDados();
+        async function fazerLogin() {
+            await carregarDados();
 
             const perfil = document.getElementById('tipo-usuario').value;
             const identificador = document.getElementById('login-identificador').value.trim();
@@ -1014,7 +1024,7 @@
                     alert("Usuário ou senha do ADM incorretos! (Padrão: admin / admin)");
                 }
             } else if (perfil === 'professor') {
-                const prof = professores.find(p => p.usuario.toLowerCase() === identificador.toLowerCase() && p.senha === senha);
+                const prof = professores.find(p => p.usuario && p.usuario.toLowerCase() === identificador.toLowerCase() && p.senha === senha);
                 if (prof) {
                     professorLogado = prof;
                     exibirPainelPrincipal();
@@ -1028,7 +1038,7 @@
             } else if (perfil === 'aluno' || perfil === 'pai') {
                 const alunoEncontrado = alunos.find(a =>
                     (perfil === 'aluno' && a.ra === identificador && a.senhaAluno === senha) ||
-                    (perfil === 'pai' && a.usuarioPai.toLowerCase() === identificador.toLowerCase() && a.senhaPai === senha)
+                    (perfil === 'pai' && a.usuarioPai && a.usuarioPai.toLowerCase() === identificador.toLowerCase() && a.senhaPai === senha)
                 );
 
                 if (alunoEncontrado) {
@@ -1074,7 +1084,7 @@
             selecionarTurmaProfessor(turmaAtiva);
         }
 
-        function adicionarComportamento(pontos, rotulo) {
+        async function adicionarComportamento(pontos, rotulo) {
             if (!alunoSelecionadoModal) return;
 
             alunoSelecionadoModal.pontos += pontos;
@@ -1088,13 +1098,21 @@
             };
 
             alunoSelecionadoModal.ocorrencias.unshift(novoItem);
-            salvarDados();
+
+            // Atualização no Supabase
+            await supabaseClient
+                .from('students')
+                .update({ 
+                    total_points: alunoSelecionadoModal.pontos,
+                    incidents_json: alunoSelecionadoModal.ocorrencias
+                })
+                .eq('id', alunoSelecionadoModal.id);
 
             document.getElementById('modal-pontos-aluno').innerText = alunoSelecionadoModal.pontos;
             atualizarHistoricoOcorrenciasModal();
         }
 
-        function removerComportamento(pontos, rotulo) {
+        async function removerComportamento(pontos, rotulo) {
             if (!alunoSelecionadoModal) return;
 
             alunoSelecionadoModal.pontos = Math.max(0, alunoSelecionadoModal.pontos - pontos);
@@ -1108,13 +1126,21 @@
             };
 
             alunoSelecionadoModal.ocorrencias.unshift(novoItem);
-            salvarDados();
+
+            // Atualização no Supabase
+            await supabaseClient
+                .from('students')
+                .update({ 
+                    total_points: alunoSelecionadoModal.pontos,
+                    incidents_json: alunoSelecionadoModal.ocorrencias
+                })
+                .eq('id', alunoSelecionadoModal.id);
 
             document.getElementById('modal-pontos-aluno').innerText = alunoSelecionadoModal.pontos;
             atualizarHistoricoOcorrenciasModal();
         }
 
-        function salvarNovaOcorrencia() {
+        async function salvarNovaOcorrencia() {
             if (!alunoSelecionadoModal) return;
             const texto = document.getElementById('modal-input-ocorrencia').value.trim();
             const pontosDesconto = parseInt(document.getElementById('modal-input-desconto').value) || 0;
@@ -1137,7 +1163,15 @@
             };
 
             alunoSelecionadoModal.ocorrencias.unshift(novaOcorrenciaObj);
-            salvarDados();
+
+            // Gravação no Supabase
+            await supabaseClient
+                .from('students')
+                .update({ 
+                    total_points: alunoSelecionadoModal.pontos,
+                    incidents_json: alunoSelecionadoModal.ocorrencias
+                })
+                .eq('id', alunoSelecionadoModal.id);
 
             document.getElementById('modal-input-ocorrencia').value = "";
             document.getElementById('modal-input-desconto').value = "0";
@@ -1182,7 +1216,6 @@
                 document.getElementById('btn-aba-ocorrencias-prof').classList.add('ativo');
                 document.getElementById('sidebar-turmas').classList.add('oculto');
 
-                // Inicializa os dois filtros encadeados
                 popularFiltroTurmasOcorrencias();
                 aoMudarTurmaFiltroOcorrencias();
             } else if (aba === 'relatorios') {
@@ -1198,9 +1231,6 @@
             }
         }
 
-        /* -------------------------------------------------------------------------
-           LÓGICA DOS FILTROS ENCADEADOS NAS OCORRÊNCIAS (TURMA -> ALUNO)
-           ------------------------------------------------------------------------- */
         function popularFiltroTurmasOcorrencias() {
             const selectTurma = document.getElementById('filtro-turma-ocorrencia-prof');
             selectTurma.innerHTML = '<option value="todas">-- Todas as Turmas --</option>';
@@ -1220,7 +1250,6 @@
 
             if (!professorLogado) return;
 
-            // Filtra os alunos baseando-se na turma selecionada
             const alunosFiltrados = alunos.filter(a => {
                 const pertenceAoProf = professorLogado.turmasAtribuidas.includes(a.turma);
                 const pertenceATurma = (turmaSelecionada === 'todas' || a.turma === turmaSelecionada);
@@ -1231,7 +1260,6 @@
                 selectAluno.innerHTML += `<option value="${aluno.id}">${aluno.nome} (${aluno.turma})</option>`;
             });
 
-            // Recarrega a tabela de acordo com as seleções atuais
             carregarRelatorioOcorrenciasProfessor();
         }
 
@@ -1252,7 +1280,7 @@
             alunos.forEach(aluno => {
                 const pertenceAoProf = professorLogado.turmasAtribuidas.includes(aluno.turma);
                 const passaTurma = (turmaSelecionada === 'todas' || aluno.turma === turmaSelecionada);
-                const passaAluno = (idAlunoSelecionado === 'todos' || aluno.id === parseInt(idAlunoSelecionado));
+                const passaAluno = (idAlunoSelecionado === 'todos' || String(aluno.id) === String(idAlunoSelecionado));
 
                 if (pertenceAoProf && passaTurma && passaAluno) {
                     aluno.ocorrencias.forEach(oc => {
@@ -1338,7 +1366,7 @@
             alunosDaTurma.forEach(aluno => {
                 const avatarExibir = aluno.avatar || "🐣";
                 grid.innerHTML += `
-                    <div class="card-aluno" onclick="abrirModalAluno(${aluno.id})">
+                    <div class="card-aluno" onclick="abrirModalAluno('${aluno.id}')">
                         <span class="badge-pontos">${aluno.pontos}</span>
                         <span style="font-size: 2.2rem; display:block; margin-bottom: 5px;">${avatarExibir}</span>
                         <strong>${aluno.nome}</strong><br>
@@ -1368,7 +1396,7 @@
             });
         }
 
-        function salvarPerfilProfessor() {
+        async function salvarPerfilProfessor() {
             const novoNome = document.getElementById('edit-prof-nome').value.trim();
             const novaSenha = document.getElementById('edit-prof-senha').value.trim();
 
@@ -1384,7 +1412,15 @@
             professorLogado.senha = novaSenha;
             professorLogado.turmasAtribuidas = turmasSelecionadas;
 
-            salvarDados();
+            // Atualização do perfil do Professor no Supabase
+            await supabaseClient
+                .from('teachers')
+                .update({ 
+                    full_name: novoNome, 
+                    password: novaSenha, 
+                    assigned_classes: turmasSelecionadas 
+                })
+                .eq('id', professorLogado.id);
 
             document.getElementById('nome-perfil').innerText = `Perfil: ${novoNome}`;
             alert("Perfil e turmas atualizados com sucesso!");
@@ -1449,7 +1485,7 @@
                         <p style="color: var(--azul-escuro); font-weight: bold; font-size: 1.1rem; margin-bottom: 12px;">${prod.pontos} pontos</p>
                         <button class="btn-acao ${podeComprar ? 'btn-sucesso' : ''}" 
                                 ${podeComprar ? '' : 'disabled style="opacity:0.5; cursor:not-allowed;"'} 
-                                onclick="resgatarProduto(${prod.id})">
+                                onclick="resgatarProduto('${prod.id}')">
                             ${podeComprar ? 'Resgatar' : 'Pontos Insuficientes'}
                         </button>
                     </div>
@@ -1457,8 +1493,8 @@
             });
         }
 
-        function resgatarProduto(idProduto) {
-            const produto = produtos.find(p => p.id === idProduto);
+        async function resgatarProduto(idProduto) {
+            const produto = produtos.find(p => String(p.id) === String(idProduto));
             if (!produto || !alunoLogado) return;
 
             if (alunoLogado.pontos < produto.pontos) {
@@ -1476,18 +1512,27 @@
                     data: dataAtual
                 });
 
-                pedidos.push({
-                    id: Date.now(),
-                    alunoId: alunoLogado.id,
-                    alunoNome: alunoLogado.nome,
-                    alunoTurma: alunoLogado.turma,
-                    produtoNome: produto.nome,
-                    pontosGastos: produto.pontos,
-                    data: dataAtual,
-                    entregue: false
-                });
+                // 1. Atualizar saldo e histórico do Aluno no Supabase
+                await supabaseClient
+                    .from('students')
+                    .update({
+                        total_points: alunoLogado.pontos,
+                        incidents_json: alunoLogado.ocorrencias
+                    })
+                    .eq('id', alunoLogado.id);
 
-                salvarDados();
+                // 2. Registar o Pedido no Supabase
+                await supabaseClient
+                    .from('orders')
+                    .insert([{
+                        student_id: alunoLogado.id,
+                        student_name: alunoLogado.nome,
+                        student_grade: alunoLogado.turma,
+                        product_name: produto.nome,
+                        points_spent: produto.pontos,
+                        delivered: false
+                    }]);
+
                 alert(`Parabéns! Você resgatou "${produto.nome}". O pedido foi enviado ao Administrador para entrega!`);
                 carregarLojaAluno();
             }
@@ -1507,10 +1552,16 @@
             });
         }
 
-        function selecionarAvatar(emojiEscolhido) {
+        async function selecionarAvatar(emojiEscolhido) {
             if (!alunoLogado) return;
             alunoLogado.avatar = emojiEscolhido;
-            salvarDados();
+
+            // Atualização no Supabase
+            await supabaseClient
+                .from('students')
+                .update({ avatar: emojiEscolhido })
+                .eq('id', alunoLogado.id);
+
             alert(`Avatar alterado com sucesso para ${emojiEscolhido}!`);
             renderizarOpcoesAvatar();
         }
@@ -1567,7 +1618,7 @@
             });
         }
 
-        function cadastrarProfessor() {
+        async function cadastrarProfessor() {
             const nome = document.getElementById('adm-nome-prof').value.trim();
             const usuario = document.getElementById('adm-usuario-prof').value.trim();
             const senha = document.getElementById('adm-senha-prof').value.trim();
@@ -1580,19 +1631,27 @@
 
             if (!nome || !usuario || !senha) return alert("Preencha todos os campos do professor!");
 
-            professores.push({
-                id: Date.now(),
-                nome: nome,
-                usuario: usuario,
-                senha: senha,
-                turmasAtribuidas: turmasSelecionadas
-            });
+            // Inserção no Supabase
+            const { error } = await supabaseClient
+                .from('teachers')
+                .insert([{
+                    full_name: nome,
+                    username: usuario,
+                    password: senha,
+                    assigned_classes: turmasSelecionadas
+                }]);
 
-            salvarDados();
+            if (error) {
+                alert("Erro ao cadastrar professor: " + error.message);
+                return;
+            }
+
             alert(`Professor ${nome} cadastrado com sucesso!`);
             document.getElementById('adm-nome-prof').value = "";
             document.getElementById('adm-usuario-prof').value = "";
             document.getElementById('adm-senha-prof').value = "";
+
+            await carregarDados();
             carregarCheckboxesTurmasAdm();
             carregarTabelaProfessores();
         }
@@ -1618,7 +1677,6 @@
             if (turmas.includes(nomeTurma)) return alert("Esta turma já existe!");
 
             turmas.push(nomeTurma);
-            salvarDados();
             alert(`Turma ${nomeTurma} criada com sucesso!`);
             document.getElementById('adm-nome-turma').value = "";
             carregarListaTurmasAdm();
@@ -1672,7 +1730,7 @@
             });
         }
 
-        function cadastrarAluno() {
+        async function cadastrarAluno() {
             const nome = document.getElementById('adm-nome-aluno').value.trim();
             const ra = document.getElementById('adm-ra-aluno').value.trim();
             const senhaAluno = document.getElementById('adm-senha-aluno').value.trim();
@@ -1682,32 +1740,39 @@
 
             if (!nome || !ra || !senhaAluno || !usuarioPai || !senhaPai) return alert("Preencha todos os campos!");
 
-            alunos.push({
-                id: Date.now(),
-                ra: ra,
-                nome: nome,
-                senhaAluno: senhaAluno,
-                usuarioPai: usuarioPai,
-                senhaPai: senhaPai,
-                turma: turma,
-                pontos: 0,
-                avatar: "🐣",
-                ocorrencias: []
-            });
+            // Gravação no Supabase
+            const { error } = await supabaseClient
+                .from('students')
+                .insert([{
+                    full_name: nome,
+                    registration_number: ra,
+                    student_password: senhaAluno,
+                    parent_username: usuarioPai,
+                    parent_password: senhaPai,
+                    grade_level: turma,
+                    total_points: 0,
+                    avatar: "🐣",
+                    incidents_json: []
+                }]);
 
-            salvarDados();
-            alert(`Aluno ${nome} cadastrado!`);
+            if (error) {
+                alert("Erro ao cadastrar aluno: " + error.message);
+                return;
+            }
+
+            alert(`Aluno ${nome} cadastrado com sucesso!`);
             document.getElementById('adm-nome-aluno').value = "";
             document.getElementById('adm-ra-aluno').value = "";
             document.getElementById('adm-senha-aluno').value = "";
             document.getElementById('adm-usuario-pai').value = "";
             document.getElementById('adm-senha-pai').value = "";
 
+            await carregarDados();
             carregarAlunosPorTurmaAdm();
         }
 
         /* GESTÃO DA LOJA, EDIÇÃO E PEDIDOS (ADM) */
-        function cadastrarOuAtualizarProduto() {
+        async function cadastrarOuAtualizarProduto() {
             const nome = document.getElementById('adm-nome-produto').value.trim();
             const pontos = parseInt(document.getElementById('adm-pontos-produto').value);
 
@@ -1716,28 +1781,25 @@
             }
 
             if (produtoEmEdicaoId) {
-                const produto = produtos.find(p => p.id === produtoEmEdicaoId);
-                if (produto) {
-                    produto.nome = nome;
-                    produto.pontos = pontos;
-                    alert(`Item "${nome}" atualizado com sucesso!`);
-                }
+                await supabaseClient
+                    .from('products')
+                    .update({ name: nome, points: pontos })
+                    .eq('id', produtoEmEdicaoId);
+                alert(`Item "${nome}" atualizado com sucesso!`);
             } else {
-                produtos.push({
-                    id: Date.now(),
-                    nome: nome,
-                    pontos: pontos
-                });
+                await supabaseClient
+                    .from('products')
+                    .insert([{ name: nome, points: pontos }]);
                 alert(`Item "${nome}" cadastrado com sucesso!`);
             }
 
-            salvarDados();
+            await carregarDados();
             cancelarEdicaoProduto();
             carregarTabelaProdutosAdm();
         }
 
         function prepararEdicaoProduto(idProduto) {
-            const produto = produtos.find(p => p.id === idProduto);
+            const produto = produtos.find(p => String(p.id) === String(idProduto));
             if (!produto) return;
 
             produtoEmEdicaoId = produto.id;
@@ -1774,7 +1836,7 @@
                         <td><strong>${prod.nome}</strong></td>
                         <td><span style="color: var(--azul-escuro); font-weight: bold;">${prod.pontos} pts</span></td>
                         <td>
-                            <button class="btn-editar" onclick="prepararEdicaoProduto(${prod.id})">✏️ Editar</button>
+                            <button class="btn-editar" onclick="prepararEdicaoProduto('${prod.id}')">✏️ Editar</button>
                         </td>
                     </tr>
                 `;
@@ -1801,12 +1863,12 @@
                     : `<span class="badge-status status-pendente">Em Aberto</span>`;
 
                 const botaoAcao = p.entregue
-                    ? `<button class="btn-acao btn-alerta" style="padding:4px 8px; font-size:0.8rem;" onclick="alternarStatusPedido(${p.id})">Desfazer</button>`
-                    : `<button class="btn-acao btn-sucesso" style="padding:4px 8px; font-size:0.8rem;" onclick="alternarStatusPedido(${p.id})">Marcar Entregue</button>`;
+                    ? `<button class="btn-acao btn-alerta" style="padding:4px 8px; font-size:0.8rem;" onclick="alternarStatusPedido('${p.id}')">Desfazer</button>`
+                    : `<button class="btn-acao btn-sucesso" style="padding:4px 8px; font-size:0.8rem;" onclick="alternarStatusPedido('${p.id}')">Marcar Entregue</button>`;
 
                 corpo.innerHTML += `
                     <tr>
-                        <td>${p.data}</td>
+                        <td>${p.data || 'N/A'}</td>
                         <td><strong>${p.alunoNome}</strong></td>
                         <td>${p.alunoTurma}</td>
                         <td>${p.produtoNome}</td>
@@ -1818,12 +1880,18 @@
             });
         }
 
-        function alternarStatusPedido(idPedido) {
-            const pedido = pedidos.find(p => p.id === idPedido);
+        async function alternarStatusPedido(idPedido) {
+            const pedido = pedidos.find(p => String(p.id) === String(idPedido));
             if (!pedido) return;
 
             pedido.entregue = !pedido.entregue;
-            salvarDados();
+
+            // Atualização no Supabase
+            await supabaseClient
+                .from('orders')
+                .update({ delivered: pedido.entregue })
+                .eq('id', pedido.id);
+
             carregarTabelaPedidosAdm();
         }
 
@@ -1865,7 +1933,7 @@
                 selectAluno.innerHTML += `<option value="${a.id}">${a.nome} (RA: ${a.ra})</option>`;
 
                 corpoTabela.innerHTML += `
-                    <tr class="linha-clicavel" onclick="selecionarAlunoPorIdRelatorio(${a.id})">
+                    <tr class="linha-clicavel" onclick="selecionarAlunoPorIdRelatorio('${a.id}')">
                         <td><code>${a.ra}</code></td>
                         <td><strong>${a.avatar || '🐣'} ${a.nome}</strong></td>
                         <td><strong style="color: var(--azul-escuro); font-size:1.05rem;">${a.pontos} pts</strong></td>
@@ -1890,8 +1958,7 @@
                 return;
             }
 
-            const idAluno = parseInt(idAlunoStr);
-            const aluno = alunos.find(a => a.id === idAluno);
+            const aluno = alunos.find(a => String(a.id) === String(idAlunoStr));
             if (!aluno) return document.getElementById('conteudo-relatorio-aluno').classList.add('oculto');
 
             document.getElementById('relatorio-avatar-aluno').innerText = aluno.avatar || "🐣";
@@ -1913,37 +1980,6 @@
 
             document.getElementById('conteudo-relatorio-aluno').classList.remove('oculto');
             document.getElementById('conteudo-relatorio-aluno').scrollIntoView({ behavior: 'smooth' });
-        }
-
-
-
-        // Configuração da Conexão
-        const SUPABASE_URL = 'https://hfdyswoyeyzpscrfpdim.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_uuX4hyIvNl6JeXy7-Pux3w_gQvxG-6r';
-
-
-        // 2. Inicialização do cliente
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // 3. Exemplo de função para cadastrar aluno com captura de erro detalhada
-        async function cadastrarAluno(nome, turma, matricula) {
-            const { data, error } = await supabaseClient
-                .from('students')
-                .insert([
-                    {
-                        full_name: nome,
-                        grade_level: turma,
-                        registration_number: matricula
-                    }
-                ]);
-
-            if (error) {
-                // Exibe o erro exato na consola do navegador e num alerta
-                console.error('Erro ao cadastrar no Supabase:', error);
-                alert('Falha ao cadastrar: ' + error.message);
-            } else {
-                alert('Aluno cadastrado com sucesso no Supabase!');
-            }
         }
     </script>
 </body>
