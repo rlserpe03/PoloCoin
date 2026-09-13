@@ -479,6 +479,38 @@ button.btn-editar:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(10
     box-shadow:0 5px 14px rgba(220,38,38,.05);
 }
 
+/* ESTILOS PARA CATEGORIAS DE OCORRÊNCIAS/HISTÓRICO */
+.cat-bloco {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+.cat-titulo {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.item-positivo {
+    border-color: #a7f3d0 !important;
+    border-left: 5px solid #10b981 !important;
+    background: linear-gradient(90deg, #f0fdf4, #fff) !important;
+}
+.item-negativo {
+    border-color: #fecaca !important;
+    border-left: 5px solid #ef4444 !important;
+    background: linear-gradient(90deg, #fff7f7, #fff) !important;
+}
+.item-loja {
+    border-color: #bfdbfe !important;
+    border-left: 5px solid #3b82f6 !important;
+    background: linear-gradient(90deg, #eff6ff, #fff) !important;
+}
+
 .grid-avatars{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(78px,1fr));
@@ -686,7 +718,7 @@ button.btn-editar:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(10
 
     <!-- CABEÇALHO -->
     <header>
-        <h1>🏆 Escola Estadual Unidade Polo Arapongas - PoloCoin 🪙 💸🤑</h1>
+        <h1>🏆 Escola do Futuro</h1>
         <div id="area-usuario" class="oculto">
             <span id="nome-perfil"></span>
             <button class="btn-logout" onclick="fazerLogout()">Sair</button>
@@ -836,7 +868,7 @@ button.btn-editar:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(10
                     </div>
 
                     <div class="card">
-                        <h3>📌 Histórico de Ocorrências e Resgates</h3>
+                        <h3>📌 Relatório Categorizado do Aluno</h3>
                         <div id="relatorio-lista-ocorrencias" style="margin-top: 15px;"></div>
                     </div>
                 </div>
@@ -1054,7 +1086,7 @@ button.btn-editar:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(10
                         <h1 id="exibir-pontos-aluno" style="font-size: 3.5rem; color: var(--azul-escuro);">0</h1>
                     </div>
                     <div class="card">
-                        <h2>Histórico de Ocorrências e Resgates</h2>
+                        <h2>Histórico do Aluno</h2>
                         <div id="lista-ocorrencias-aluno" style="margin-top: 15px;"></div>
                     </div>
                 </div>
@@ -1719,11 +1751,7 @@ button.btn-editar:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(10
             document.getElementById('exibir-pontos-aluno').innerText = alunoLogado.pontos;
 
             const lista = document.getElementById('lista-ocorrencias-aluno');
-            lista.innerHTML = alunoLogado.ocorrencias.length === 0 ? "<p style='color:#777;'>Nenhuma ocorrência registrada.</p>" : "";
-            alunoLogado.ocorrencias.forEach(oc => {
-                const textoExibir = typeof oc === 'object' ? oc.texto : oc;
-                lista.innerHTML += `<div class="item-ocorrencia">📌 ${textoExibir}</div>`;
-            });
+            lista.innerHTML = gerarHtmlCategorizado(alunoLogado.ocorrencias);
         }
 
         function carregarLojaAluno() {
@@ -2269,6 +2297,67 @@ button.btn-editar:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(10
             carregarRelatorioAluno();
         }
 
+        /* FUNÇÃO AUXILIAR DE CATEGORIZAÇÃO VISUAL */
+        function gerarHtmlCategorizado(listaOcorrencias) {
+            if (!listaOcorrencias || listaOcorrencias.length === 0) {
+                return "<p style='color: #777;'>Nenhum registro encontrado para este aluno.</p>";
+            }
+
+            const positivos = [];
+            const negativos = [];
+            const loja = [];
+
+            listaOcorrencias.forEach(oc => {
+                const texto = typeof oc === 'object' ? oc.texto : oc;
+                const autor = (typeof oc === 'object' && oc.autor) ? ` — <em>(${oc.autor})</em>` : '';
+                const data = (typeof oc === 'object' && oc.data) ? `<small style='color:#666;'>[${oc.data}]</small> ` : '';
+                
+                const itemFormatado = `${data}${texto}${autor}`;
+
+                if (texto.includes("Resgate de Prêmio")) {
+                    loja.push(itemFormatado);
+                } else if (texto.includes("Pontuação:") || texto.includes("+")) {
+                    positivos.push(itemFormatado);
+                } else {
+                    negativos.push(itemFormatado);
+                }
+            });
+
+            let htmlFinal = "";
+
+            // Categoria 1: Pontos Positivos
+            if (positivos.length > 0) {
+                htmlFinal += `
+                    <div class="cat-bloco">
+                        <div class="cat-titulo" style="color: #059669;">🟢 Pontos Positivos & Conquistas (${positivos.length})</div>
+                        ${positivos.map(p => `<div class="item-ocorrencia item-positivo">✨ ${p}</div>`).join('')}
+                    </div>
+                `;
+            }
+
+            // Categoria 2: Ocorrências e Descontos
+            if (negativos.length > 0) {
+                htmlFinal += `
+                    <div class="cat-bloco">
+                        <div class="cat-titulo" style="color: #dc2626;">🔴 Ocorrências & Perda de Pontos (${negativos.length})</div>
+                        ${negativos.map(n => `<div class="item-ocorrencia item-negativo">⚠️ ${n}</div>`).join('')}
+                    </div>
+                `;
+            }
+
+            // Categoria 3: Resgates da Loja
+            if (loja.length > 0) {
+                htmlFinal += `
+                    <div class="cat-bloco">
+                        <div class="cat-titulo" style="color: #2563eb;">🛒 Prêmios Resgatados (${loja.length})</div>
+                        ${loja.map(l => `<div class="item-ocorrencia item-loja">🎁 ${l}</div>`).join('')}
+                    </div>
+                `;
+            }
+
+            return htmlFinal;
+        }
+
         function carregarRelatorioAluno() {
             const idAlunoStr = document.getElementById('relatorio-select-aluno').value;
 
@@ -2286,16 +2375,7 @@ button.btn-editar:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(10
             document.getElementById('relatorio-pontos-aluno').innerText = aluno.pontos;
 
             const containerOcorrencias = document.getElementById('relatorio-lista-ocorrencias');
-            containerOcorrencias.innerHTML = "";
-
-            if (aluno.ocorrencias.length === 0) {
-                containerOcorrencias.innerHTML = "<p style='color: #777;'>Nenhuma ocorrência registrada para este aluno.</p>";
-            } else {
-                aluno.ocorrencias.forEach(oc => {
-                    const desc = typeof oc === 'object' ? oc.texto : oc;
-                    containerOcorrencias.innerHTML += `<div class="item-ocorrencia">📌 ${desc}</div>`;
-                });
-            }
+            containerOcorrencias.innerHTML = gerarHtmlCategorizado(aluno.ocorrencias);
 
             document.getElementById('conteudo-relatorio-aluno').classList.remove('oculto');
             document.getElementById('conteudo-relatorio-aluno').scrollIntoView({ behavior: 'smooth' });
