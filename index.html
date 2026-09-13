@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,7 +48,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .btn-logout {
@@ -112,19 +113,30 @@
             border: 1px solid var(--cinza-borda);
         }
 
-        .item-turma:hover { background-color: #e3f2fd; }
-        .item-turma.ativa { background-color: var(--azul-principal); color: var(--branco); }
+        .item-turma:hover {
+            background-color: #e3f2fd;
+        }
 
-        main { flex: 1; padding: 25px; }
+        .item-turma.ativa {
+            background-color: var(--azul-principal);
+            color: var(--branco);
+        }
 
-        .grid-alunos, .grid-produtos {
+        main {
+            flex: 1;
+            padding: 25px;
+        }
+
+        .grid-alunos,
+        .grid-produtos {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
 
-        .card-aluno, .card-produto {
+        .card-aluno,
+        .card-produto {
             background: var(--branco);
             border: 2px solid var(--cinza-borda);
             border-radius: 12px;
@@ -134,31 +146,58 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .card-aluno:hover, .card-produto:hover {
+        .card-aluno:hover,
+        .card-produto:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-color: var(--azul-principal);
         }
 
         .badge-pontos {
             position: absolute;
-            top: -8px; right: -8px;
+            top: -8px;
+            right: -8px;
             background-color: var(--amarelo-principal);
-            color: #000; font-weight: bold;
-            border-radius: 50%; width: 28px; height: 28px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.85rem; border: 2px solid var(--branco);
+            color: #000;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            border: 2px solid var(--branco);
         }
 
         .card {
-            background: var(--branco); border-radius: 10px; padding: 20px;
-            margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background: var(--branco);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             border-top: 5px solid var(--azul-principal);
         }
 
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: 600; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
 
         .checkbox-group {
             display: flex;
@@ -172,19 +211,50 @@
             overflow-y: auto;
         }
 
-        .checkbox-item { display: flex; align-items: center; gap: 8px; }
-        .checkbox-item input { width: auto; }
-
-        button.btn-acao {
-            background-color: var(--azul-principal); color: var(--branco);
-            border: none; padding: 10px 15px; border-radius: 5px;
-            font-size: 1rem; cursor: pointer; font-weight: bold; width: 100%;
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        button.btn-sucesso { background-color: var(--verde); }
-        button.btn-alerta { background-color: var(--laranja); }
-        button.btn-perigo { background-color: var(--vermelho); color: white; }
-        button.btn-editar { background-color: #795548; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .checkbox-item input {
+            width: auto;
+        }
+
+        button.btn-acao {
+            background-color: var(--azul-principal);
+            color: var(--branco);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        button.btn-sucesso {
+            background-color: var(--verde);
+        }
+
+        button.btn-alerta {
+            background-color: var(--laranja);
+        }
+
+        button.btn-perigo {
+            background-color: var(--vermelho);
+            color: white;
+        }
+
+        button.btn-editar {
+            background-color: #795548;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
         .box-pontos-relatorio {
             background-color: var(--amarelo-claro);
@@ -195,7 +265,10 @@
             margin-bottom: 20px;
         }
 
-        .box-pontos-relatorio h1 { font-size: 3rem; color: var(--azul-escuro); }
+        .box-pontos-relatorio h1 {
+            font-size: 3rem;
+            color: var(--azul-escuro);
+        }
 
         .item-ocorrencia {
             background-color: #fff;
@@ -203,7 +276,7 @@
             padding: 10px 15px;
             margin-bottom: 10px;
             border-radius: 4px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .tabela-dados {
@@ -212,21 +285,27 @@
             margin-top: 10px;
         }
 
-        .tabela-dados th, .tabela-dados td {
+        .tabela-dados th,
+        .tabela-dados td {
             padding: 10px;
             border-bottom: 1px solid var(--cinza-borda);
             text-align: left;
             font-size: 0.9rem;
         }
 
-        .tabela-dados th { background-color: #f0f4f8; color: var(--azul-escuro); }
+        .tabela-dados th {
+            background-color: #f0f4f8;
+            color: var(--azul-escuro);
+        }
 
         .linha-clicavel {
             cursor: pointer;
             transition: background-color 0.2s;
         }
 
-        .linha-clicavel:hover { background-color: #e3f2fd; }
+        .linha-clicavel:hover {
+            background-color: #e3f2fd;
+        }
 
         .badge-status {
             padding: 4px 8px;
@@ -235,8 +314,14 @@
             font-weight: bold;
             color: #fff;
         }
-        .status-pendente { background-color: var(--laranja); }
-        .status-entregue { background-color: var(--verde); }
+
+        .status-pendente {
+            background-color: var(--laranja);
+        }
+
+        .status-entregue {
+            background-color: var(--verde);
+        }
 
         .grid-avatars {
             display: grid;
@@ -256,13 +341,23 @@
             transition: transform 0.2s, border-color 0.2s;
         }
 
-        .card-avatar-opcao:hover { transform: scale(1.1); border-color: var(--azul-principal); }
-        .card-avatar-opcao.selecionado { border-color: var(--azul-principal); background-color: #e3f2fd; }
+        .card-avatar-opcao:hover {
+            transform: scale(1.1);
+            border-color: var(--azul-principal);
+        }
+
+        .card-avatar-opcao.selecionado {
+            border-color: var(--azul-principal);
+            background-color: #e3f2fd;
+        }
 
         /* MODAL FLUTUANTE */
         .modal-overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background-color: rgba(0, 0, 0, 0.6);
             display: flex;
             align-items: center;
@@ -276,7 +371,7 @@
             max-width: 550px;
             border-radius: 12px;
             padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
             position: relative;
             max-height: 90vh;
             overflow-y: auto;
@@ -284,7 +379,8 @@
 
         .modal-fechar {
             position: absolute;
-            top: 15px; right: 20px;
+            top: 15px;
+            right: 20px;
             font-size: 1.8rem;
             font-weight: bold;
             cursor: pointer;
@@ -310,7 +406,10 @@
             transition: background 0.2s;
         }
 
-        .btn-comportamento:hover { background-color: var(--azul-principal); color: var(--branco); }
+        .btn-comportamento:hover {
+            background-color: var(--azul-principal);
+            color: var(--branco);
+        }
 
         .btn-desconto {
             background-color: #ffebee;
@@ -324,11 +423,17 @@
             transition: background 0.2s;
         }
 
-        .btn-desconto:hover { background-color: var(--vermelho); color: var(--branco); }
+        .btn-desconto:hover {
+            background-color: var(--vermelho);
+            color: var(--branco);
+        }
 
-        .oculto { display: none !important; }
+        .oculto {
+            display: none !important;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- CABEÇALHO -->
@@ -342,24 +447,33 @@
 
     <!-- NAVEGAÇÕES -->
     <div id="nav-professor" class="nav-sub-bar oculto">
-        <button id="btn-aba-turmas" class="btn-nav ativo" onclick="alternarAbaProfessor('turmas')">🏫 Minhas Turmas</button>
-        <button id="btn-aba-ocorrencias-prof" class="btn-nav" onclick="alternarAbaProfessor('ocorrencias')">📜 Ocorrências dos Alunos</button>
-        <button id="btn-aba-relatorios" class="btn-nav" onclick="alternarAbaProfessor('relatorios')">📊 Painel de Relatórios</button>
-        <button id="btn-aba-editar-perfil" class="btn-nav" onclick="alternarAbaProfessor('perfil')">✏️ Editar Meu Perfil</button>
+        <button id="btn-aba-turmas" class="btn-nav ativo" onclick="alternarAbaProfessor('turmas')">🏫 Minhas
+            Turmas</button>
+        <button id="btn-aba-ocorrencias-prof" class="btn-nav" onclick="alternarAbaProfessor('ocorrencias')">📜
+            Ocorrências dos Alunos</button>
+        <button id="btn-aba-relatorios" class="btn-nav" onclick="alternarAbaProfessor('relatorios')">📊 Painel de
+            Relatórios</button>
+        <button id="btn-aba-editar-perfil" class="btn-nav" onclick="alternarAbaProfessor('perfil')">✏️ Editar Meu
+            Perfil</button>
     </div>
 
     <div id="nav-aluno" class="nav-sub-bar oculto">
-        <button id="btn-aba-aluno-inicio" class="btn-nav ativo" onclick="alternarAbaAluno('inicio')">🏠 Meu Painel</button>
-        <button id="btn-aba-aluno-loja" class="btn-nav" onclick="alternarAbaAluno('loja')">🛒 Loja de Recompensas</button>
-        <button id="btn-aba-aluno-avatar" class="btn-nav" onclick="alternarAbaAluno('avatar')">🎨 Escolher Meu Avatar</button>
+        <button id="btn-aba-aluno-inicio" class="btn-nav ativo" onclick="alternarAbaAluno('inicio')">🏠 Meu
+            Painel</button>
+        <button id="btn-aba-aluno-loja" class="btn-nav" onclick="alternarAbaAluno('loja')">🛒 Loja de
+            Recompensas</button>
+        <button id="btn-aba-aluno-avatar" class="btn-nav" onclick="alternarAbaAluno('avatar')">🎨 Escolher Meu
+            Avatar</button>
     </div>
 
     <div id="nav-adm" class="nav-sub-bar oculto">
-        <button id="btn-adm-professores" class="btn-nav ativo" onclick="alternarAbaAdm('professores')">👨‍🏫 Cadastrar Professor</button>
+        <button id="btn-adm-professores" class="btn-nav ativo" onclick="alternarAbaAdm('professores')">👨‍🏫 Cadastrar
+            Professor</button>
         <button id="btn-adm-turmas" class="btn-nav" onclick="alternarAbaAdm('turmas')">🏫 Cadastrar Turma</button>
         <button id="btn-adm-alunos" class="btn-nav" onclick="alternarAbaAdm('alunos')">🎓 Alunos & Turmas</button>
         <button id="btn-adm-loja" class="btn-nav" onclick="alternarAbaAdm('loja')">🎁 Gerenciar Loja</button>
-        <button id="btn-adm-pedidos" class="btn-nav" onclick="alternarAbaAdm('pedidos')">📦 Pedidos de Recompensas</button>
+        <button id="btn-adm-pedidos" class="btn-nav" onclick="alternarAbaAdm('pedidos')">📦 Pedidos de
+            Recompensas</button>
     </div>
 
     <!-- TELA DE LOGIN -->
@@ -393,17 +507,19 @@
 
     <!-- PAINEL PRINCIPAL -->
     <div id="painel-principal" class="app-container oculto">
-        
+
         <sidebar id="sidebar-turmas" class="oculto">
             <h3>Suas Turmas</h3>
-            <div id="lista-turmas-sidebar" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;"></div>
+            <div id="lista-turmas-sidebar" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+            </div>
         </sidebar>
 
         <main>
             <!-- PROFESSOR: TURMAS -->
             <section id="visao-professor" class="oculto">
                 <h2 id="titulo-turma-atual">Selecione uma turma</h2>
-                <p style="color: #666; font-size: 0.9rem; margin-top: 4px;">Clique no card do aluno para lançar pontos, descontos ou ocorrências.</p>
+                <p style="color: #666; font-size: 0.9rem; margin-top: 4px;">Clique no card do aluno para lançar pontos,
+                    descontos ou ocorrências.</p>
                 <div id="grid-alunos-professor" class="grid-alunos"></div>
             </section>
 
@@ -411,8 +527,9 @@
             <section id="visao-ocorrencias-professor" class="oculto">
                 <div class="card">
                     <h2>📜 Relatório de Ocorrências Lançadas por Você</h2>
-                    <p style="margin-bottom: 15px; color: #666;">Filtre primeiro por turma para depois selecionar um aluno específico.</p>
-                    
+                    <p style="margin-bottom: 15px; color: #666;">Filtre primeiro por turma para depois selecionar um
+                        aluno específico.</p>
+
                     <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
                         <!-- 1. FILTRO DE TURMA -->
                         <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
@@ -425,7 +542,8 @@
                         <!-- 2. FILTRO DE ALUNO -->
                         <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
                             <label for="filtro-aluno-ocorrencia-prof">2. Filtrar por Aluno:</label>
-                            <select id="filtro-aluno-ocorrencia-prof" onchange="carregarRelatorioOcorrenciasProfessor()">
+                            <select id="filtro-aluno-ocorrencia-prof"
+                                onchange="carregarRelatorioOcorrenciasProfessor()">
                                 <!-- Preenchido dinamicamente com base na turma selecionada -->
                             </select>
                         </div>
@@ -450,8 +568,9 @@
             <section id="visao-relatorio-professor" class="oculto">
                 <div class="card">
                     <h2>📊 Painel de Relatórios dos Alunos</h2>
-                    <p style="margin-bottom: 15px; color: #666;">Selecione a turma para visualizar a pontuação de todos os alunos. Clique no aluno desejado para ver o histórico detalhado.</p>
-                    
+                    <p style="margin-bottom: 15px; color: #666;">Selecione a turma para visualizar a pontuação de todos
+                        os alunos. Clique no aluno desejado para ver o histórico detalhado.</p>
+
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group">
                             <label for="relatorio-select-turma">1. Selecione a Turma:</label>
@@ -499,13 +618,14 @@
             <section id="visao-perfil-professor" class="oculto">
                 <div class="card">
                     <h2>✏️ Editar Perfil do Professor</h2>
-                    <p style="margin-bottom: 15px; color: #666;">Atualize seus dados pessoais e selecione as turmas em que você está lecionando.</p>
-                    
+                    <p style="margin-bottom: 15px; color: #666;">Atualize seus dados pessoais e selecione as turmas em
+                        que você está lecionando.</p>
+
                     <div class="form-group">
                         <label for="edit-prof-nome">Seu Nome:</label>
                         <input type="text" id="edit-prof-nome">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="edit-prof-senha">Sua Senha:</label>
                         <input type="password" id="edit-prof-senha">
@@ -644,8 +764,10 @@
                             <input type="number" id="adm-pontos-produto" placeholder="Ex: 100">
                         </div>
                         <div style="display: flex; gap: 10px;">
-                            <button id="btn-salvar-produto" class="btn-acao" onclick="cadastrarOuAtualizarProduto()">Cadastrar Produto</button>
-                            <button id="btn-cancelar-edicao-produto" class="btn-acao btn-alerta oculto" onclick="cancelarEdicaoProduto()">Cancelar Edição</button>
+                            <button id="btn-salvar-produto" class="btn-acao"
+                                onclick="cadastrarOuAtualizarProduto()">Cadastrar Produto</button>
+                            <button id="btn-cancelar-edicao-produto" class="btn-acao btn-alerta oculto"
+                                onclick="cancelarEdicaoProduto()">Cancelar Edição</button>
                         </div>
                     </div>
 
@@ -667,8 +789,9 @@
                 <div id="adm-secao-pedidos" class="oculto">
                     <div class="card">
                         <h2>📦 Relatório e Controle de Entregas</h2>
-                        <p style="margin-bottom: 15px; color: #666;">Acompanhe os itens resgatados pelos alunos e marque a entrega conforme providenciá-los.</p>
-                        
+                        <p style="margin-bottom: 15px; color: #666;">Acompanhe os itens resgatados pelos alunos e marque
+                            a entrega conforme providenciá-los.</p>
+
                         <div class="form-group" style="max-width: 250px;">
                             <label for="filtro-status-pedido">Filtrar por Status:</label>
                             <select id="filtro-status-pedido" onchange="carregarTabelaPedidosAdm()">
@@ -700,7 +823,8 @@
             <section id="visao-aluno" class="oculto">
                 <div id="aluno-secao-inicio">
                     <div class="card" style="text-align: center; background-color: var(--amarelo-claro);">
-                        <span id="exibir-avatar-aluno-painel" style="font-size: 4rem; display: block; margin-bottom: 5px;">🐣</span>
+                        <span id="exibir-avatar-aluno-painel"
+                            style="font-size: 4rem; display: block; margin-bottom: 5px;">🐣</span>
                         <h3 id="exibir-nome-aluno-painel" style="color: #555;">Aluno</h3>
                         <h2 style="margin-top: 10px;">Pontuação Total Disponível</h2>
                         <h1 id="exibir-pontos-aluno" style="font-size: 3.5rem; color: var(--azul-escuro);">0</h1>
@@ -722,7 +846,8 @@
                 <div id="aluno-secao-avatar" class="oculto">
                     <div class="card">
                         <h2>🎨 Escolha o seu Avatar</h2>
-                        <p style="margin-bottom: 15px; color: #666;">Clique em um dos emojis abaixo para defini-lo como seu personagem no sistema!</p>
+                        <p style="margin-bottom: 15px; color: #666;">Clique em um dos emojis abaixo para defini-lo como
+                            seu personagem no sistema!</p>
                         <div id="container-grid-avatars" class="grid-avatars"></div>
                     </div>
                 </div>
@@ -747,28 +872,37 @@
 
             <h4 style="margin-bottom: 5px; color: var(--verde);">➕ Somar Pontos (Comportamento Positivo):</h4>
             <div class="grid-comportamentos">
-                <button class="btn-comportamento" onclick="adicionarComportamento(1, 'Participação')">✋ Participação (+1)</button>
+                <button class="btn-comportamento" onclick="adicionarComportamento(1, 'Participação')">✋ Participação
+                    (+1)</button>
                 <button class="btn-comportamento" onclick="adicionarComportamento(2, 'Tarefa')">📚 Tarefa (+2)</button>
-                <button class="btn-comportamento" onclick="adicionarComportamento(3, 'Trabalho em Equipe')">🤝 Trabalho em Equipe (+3)</button>
-                <button class="btn-comportamento" onclick="adicionarComportamento(1, 'Respeito')">⭐ Respeito (+1)</button>
+                <button class="btn-comportamento" onclick="adicionarComportamento(3, 'Trabalho em Equipe')">🤝 Trabalho
+                    em Equipe (+3)</button>
+                <button class="btn-comportamento" onclick="adicionarComportamento(1, 'Respeito')">⭐ Respeito
+                    (+1)</button>
             </div>
 
             <h4 style="margin-bottom: 5px; color: var(--vermelho);">➖ Descontar Pontos (Ocorrência Rápida):</h4>
             <div class="grid-comportamentos">
-                <button class="btn-desconto" onclick="removerComportamento(1, 'Conversa paralela')">💬 Conversa (-1)</button>
-                <button class="btn-desconto" onclick="removerComportamento(2, 'Sem material')">🎒 Sem Material (-2)</button>
-                <button class="btn-desconto" onclick="removerComportamento(3, 'Uso indevido de celular')">📱 Celular (-3)</button>
+                <button class="btn-desconto" onclick="removerComportamento(1, 'Conversa paralela')">💬 Conversa
+                    (-1)</button>
+                <button class="btn-desconto" onclick="removerComportamento(2, 'Sem material')">🎒 Sem Material
+                    (-2)</button>
+                <button class="btn-desconto" onclick="removerComportamento(3, 'Uso indevido de celular')">📱 Celular
+                    (-3)</button>
                 <button class="btn-desconto" onclick="removerComportamento(1, 'Atraso na aula')">⏰ Atraso (-1)</button>
             </div>
 
             <div class="form-group" style="margin-top: 15px; border-top: 1px solid #ccc; padding-top: 15px;">
                 <label for="modal-input-ocorrencia">Registrar Ocorrência Personalizada:</label>
-                <textarea id="modal-input-ocorrencia" rows="2" placeholder="Ex: Atitude inadequada durante o intervalo."></textarea>
-                
+                <textarea id="modal-input-ocorrencia" rows="2"
+                    placeholder="Ex: Atitude inadequada durante o intervalo."></textarea>
+
                 <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
-                    <label for="modal-input-desconto" style="margin: 0; white-space: nowrap; font-size: 0.9rem;">Pontos a descontar:</label>
+                    <label for="modal-input-desconto" style="margin: 0; white-space: nowrap; font-size: 0.9rem;">Pontos
+                        a descontar:</label>
                     <input type="number" id="modal-input-desconto" min="0" value="0" style="width: 80px; padding: 5px;">
-                    <button class="btn-acao btn-perigo" style="flex: 1;" onclick="salvarNovaOcorrencia()">Salvar Ocorrência</button>
+                    <button class="btn-acao btn-perigo" style="flex: 1;" onclick="salvarNovaOcorrencia()">Salvar
+                        Ocorrência</button>
                 </div>
             </div>
 
@@ -790,22 +924,22 @@
             { id: 2, nome: "Prof. Ana", usuario: "prof.ana", senha: "123", turmasAtribuidas: ["3º Ano A"] }
         ];
         const alunosPadrao = [
-            { 
-                id: 1, ra: "1001", nome: "Pedro Henrique Silva", senhaAluno: "123", usuarioPai: "pai.pedro1", senhaPai: "abc", turma: "3º Ano A", pontos: 120, avatar: "🦁", 
-                ocorrencias: [] 
+            {
+                id: 1, ra: "1001", nome: "Pedro Henrique Silva", senhaAluno: "123", usuarioPai: "pai.pedro1", senhaPai: "abc", turma: "3º Ano A", pontos: 120, avatar: "🦁",
+                ocorrencias: []
             },
-            { 
-                id: 2, ra: "1002", nome: "Pedro Henrique Santos", senhaAluno: "123", usuarioPai: "pai.pedro2", senhaPai: "abc", turma: "3º Ano A", pontos: 180, avatar: "🚀", 
+            {
+                id: 2, ra: "1002", nome: "Pedro Henrique Santos", senhaAluno: "123", usuarioPai: "pai.pedro2", senhaPai: "abc", turma: "3º Ano A", pontos: 180, avatar: "🚀",
                 ocorrencias: [
                     { texto: "Conversa sem autorização durante a aula.", autor: "Prof. Marcão", idProf: 1, data: "10/05/2026" },
                     { texto: "Esqueceu o livro Didático.", autor: "Prof. Ana", idProf: 2, data: "11/05/2026" }
-                ] 
+                ]
             },
-            { 
-                id: 3, ra: "2001", nome: "Carlos Eduardo", senhaAluno: "123", usuarioPai: "pai.carlos", senhaPai: "abc", turma: "7º Ano A", pontos: 50, avatar: "⚽", 
+            {
+                id: 3, ra: "2001", nome: "Carlos Eduardo", senhaAluno: "123", usuarioPai: "pai.carlos", senhaPai: "abc", turma: "7º Ano A", pontos: 50, avatar: "⚽",
                 ocorrencias: [
                     { texto: "Uso indevido do celular.", autor: "Prof. Marcão", idProf: 1, data: "12/05/2026" }
-                ] 
+                ]
             }
         ];
         const produtosPadrao = [
@@ -892,7 +1026,7 @@
                     alert("Professor não encontrado ou senha inválida!");
                 }
             } else if (perfil === 'aluno' || perfil === 'pai') {
-                const alunoEncontrado = alunos.find(a => 
+                const alunoEncontrado = alunos.find(a =>
                     (perfil === 'aluno' && a.ra === identificador && a.senhaAluno === senha) ||
                     (perfil === 'pai' && a.usuarioPai.toLowerCase() === identificador.toLowerCase() && a.senhaPai === senha)
                 );
@@ -942,10 +1076,10 @@
 
         function adicionarComportamento(pontos, rotulo) {
             if (!alunoSelecionadoModal) return;
-            
+
             alunoSelecionadoModal.pontos += pontos;
             const dataHoje = new Date().toLocaleDateString('pt-BR');
-            
+
             const novoItem = {
                 texto: `Pontuação: +${pontos} por "${rotulo}"`,
                 autor: professorLogado ? professorLogado.nome : "Sistema",
@@ -962,10 +1096,10 @@
 
         function removerComportamento(pontos, rotulo) {
             if (!alunoSelecionadoModal) return;
-            
+
             alunoSelecionadoModal.pontos = Math.max(0, alunoSelecionadoModal.pontos - pontos);
             const dataHoje = new Date().toLocaleDateString('pt-BR');
-            
+
             const novoItem = {
                 texto: `Ocorrência/Desconto: -${pontos} pt(s) por "${rotulo}"`,
                 autor: professorLogado ? professorLogado.nome : "Sistema",
@@ -988,7 +1122,7 @@
             if (!texto) return alert("Digite a descrição da ocorrência!");
 
             const dataHoje = new Date().toLocaleDateString('pt-BR');
-            
+
             let descricaoFinal = texto;
             if (pontosDesconto > 0) {
                 alunoSelecionadoModal.pontos = Math.max(0, alunoSelecionadoModal.pontos - pontosDesconto);
@@ -1008,7 +1142,7 @@
             document.getElementById('modal-input-ocorrencia').value = "";
             document.getElementById('modal-input-desconto').value = "0";
             document.getElementById('modal-pontos-aluno').innerText = alunoSelecionadoModal.pontos;
-            
+
             atualizarHistoricoOcorrenciasModal();
             alert("Ocorrência registrada com sucesso!");
         }
@@ -1047,7 +1181,7 @@
                 document.getElementById('visao-ocorrencias-professor').classList.remove('oculto');
                 document.getElementById('btn-aba-ocorrencias-prof').classList.add('ativo');
                 document.getElementById('sidebar-turmas').classList.add('oculto');
-                
+
                 // Inicializa os dois filtros encadeados
                 popularFiltroTurmasOcorrencias();
                 aoMudarTurmaFiltroOcorrencias();
@@ -1105,7 +1239,7 @@
             const corpoTabela = document.getElementById('tabela-ocorrencias-professor-corpo');
             const turmaSelecionada = document.getElementById('filtro-turma-ocorrencia-prof').value;
             const idAlunoSelecionado = document.getElementById('filtro-aluno-ocorrencia-prof').value;
-            
+
             corpoTabela.innerHTML = "";
 
             if (!professorLogado) {
@@ -1122,7 +1256,7 @@
 
                 if (pertenceAoProf && passaTurma && passaAluno) {
                     aluno.ocorrencias.forEach(oc => {
-                        const pertenceAoProfessor = (typeof oc === 'object') 
+                        const pertenceAoProfessor = (typeof oc === 'object')
                             ? (oc.idProf === professorLogado.id || oc.autor === professorLogado.nome)
                             : false;
 
@@ -1182,7 +1316,7 @@
 
         function selecionarTurmaProfessor(nomeTurma) {
             turmaAtiva = nomeTurma;
-            
+
             const elementosTurma = document.querySelectorAll('.item-turma');
             elementosTurma.forEach(elem => {
                 if (elem.innerText.includes(nomeTurma)) elem.classList.add('ativa');
@@ -1190,7 +1324,7 @@
             });
 
             document.getElementById('titulo-turma-atual').innerText = `Turma: ${nomeTurma}`;
-            
+
             const grid = document.getElementById('grid-alunos-professor');
             grid.innerHTML = "";
 
@@ -1288,7 +1422,7 @@
             document.getElementById('exibir-avatar-aluno-painel').innerText = alunoLogado.avatar || "🐣";
             document.getElementById('exibir-nome-aluno-painel').innerText = alunoLogado.nome;
             document.getElementById('exibir-pontos-aluno').innerText = alunoLogado.pontos;
-            
+
             const lista = document.getElementById('lista-ocorrencias-aluno');
             lista.innerHTML = alunoLogado.ocorrencias.length === 0 ? "<p style='color:#777;'>Nenhuma ocorrência registrada.</p>" : "";
             alunoLogado.ocorrencias.forEach(oc => {
@@ -1662,7 +1796,7 @@
             }
 
             pedidosFiltrados.forEach(p => {
-                const statusBadge = p.entregue 
+                const statusBadge = p.entregue
                     ? `<span class="badge-status status-entregue">Entregue</span>`
                     : `<span class="badge-status status-pendente">Em Aberto</span>`;
 
@@ -1709,7 +1843,7 @@
             const selectAluno = document.getElementById('relatorio-select-aluno');
             const cardTabela = document.getElementById('card-tabela-alunos-relatorio');
             const corpoTabela = document.getElementById('tabela-alunos-relatorio-corpo');
-            
+
             selectAluno.innerHTML = "<option value=''>-- Todos os Alunos --</option>";
             document.getElementById('conteudo-relatorio-aluno').classList.add('oculto');
             corpoTabela.innerHTML = "";
@@ -1750,7 +1884,7 @@
 
         function carregarRelatorioAluno() {
             const idAlunoStr = document.getElementById('relatorio-select-aluno').value;
-            
+
             if (!idAlunoStr) {
                 document.getElementById('conteudo-relatorio-aluno').classList.add('oculto');
                 return;
@@ -1781,10 +1915,37 @@
             document.getElementById('conteudo-relatorio-aluno').scrollIntoView({ behavior: 'smooth' });
         }
 
-     // Configuração da Conexão
+
+
+        // Configuração da Conexão
         const SUPABASE_URL = 'https://hfdyswoyeyzpscrfpdim.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_uuX4hyIvNl6JeXy7-Pux3w_gQvxG-6r';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);   
+
+
+        // 2. Inicialização do cliente
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // 3. Exemplo de função para cadastrar aluno com captura de erro detalhada
+        async function cadastrarAluno(nome, turma, matricula) {
+            const { data, error } = await supabaseClient
+                .from('students')
+                .insert([
+                    {
+                        full_name: nome,
+                        grade_level: turma,
+                        registration_number: matricula
+                    }
+                ]);
+
+            if (error) {
+                // Exibe o erro exato na consola do navegador e num alerta
+                console.error('Erro ao cadastrar no Supabase:', error);
+                alert('Falha ao cadastrar: ' + error.message);
+            } else {
+                alert('Aluno cadastrado com sucesso no Supabase!');
+            }
+        }
     </script>
 </body>
+
 </html>
