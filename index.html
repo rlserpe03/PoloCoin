@@ -1315,53 +1315,76 @@ button.btn-editar:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(10
             else labelIdentificador.innerText = "Usuário do ADM:";
         }
 
-        async function fazerLogin() {
-            await carregarDados();
+       async function fazerLogin() {
+    await carregarDados();
 
-            const perfil = document.getElementById('tipo-usuario').value;
-            const identificador = document.getElementById('login-identificador').value.trim();
-            const senha = document.getElementById('login-senha').value.trim();
+    const perfil = document.getElementById('tipo-usuario').value;
+    const identificador = document.getElementById('login-identificador').value.trim();
+    const senha = document.getElementById('login-senha').value.trim();
 
-            if (perfil === 'adm') {
-                if (identificador === "admin" && senha === "admin") {
-                    exibirPainelPrincipal();
-                    document.getElementById('nome-perfil').innerText = "Perfil: Administrador (ADM)";
-                    document.getElementById('nav-adm').classList.remove('oculto');
-                    document.getElementById('visao-adm').classList.remove('oculto');
-                    alternarAbaAdm('professores');
-                } else {
-                    alert("Usuário ou senha do ADM incorretos! (Padrão: admin / admin)");
-                }
-            } else if (perfil === 'professor') {
-                const prof = professores.find(p => p.usuario && p.usuario.toLowerCase() === identificador.toLowerCase() && p.senha === senha);
-                if (prof) {
-                    professorLogado = prof;
-                    exibirPainelPrincipal();
-                    document.getElementById('nome-perfil').innerText = `Perfil: ${prof.nome}`;
-                    document.getElementById('nav-professor').classList.remove('oculto');
-                    document.getElementById('sidebar-turmas').classList.remove('oculto');
-                    alternarAbaProfessor('turmas');
-                } else {
-                    alert("Professor não encontrado ou senha inválida!");
-                }
-            } else if (perfil === 'aluno' || perfil === 'pai') {
-                const alunoEncontrado = alunos.find(a =>
-                    (perfil === 'aluno' && a.ra === identificador && a.senhaAluno === senha) ||
-                    (perfil === 'pai' && a.usuarioPai && a.usuarioPai.toLowerCase() === identificador.toLowerCase() && a.senhaPai === senha)
-                );
+    if (!identificador || !senha) {
+        alert("Por favor, preencha o utilizador e a senha!");
+        return;
+    }
 
-                if (alunoEncontrado) {
-                    alunoLogado = alunoEncontrado;
-                    exibirPainelPrincipal();
-                    document.getElementById('nome-perfil').innerText = `Perfil: ${perfil === 'aluno' ? 'Aluno' : 'Pai'} (${alunoEncontrado.nome})`;
-                    document.getElementById('nav-aluno').classList.remove('oculto');
-                    document.getElementById('visao-aluno').classList.remove('oculto');
-                    alternarAbaAluno('inicio');
-                } else {
-                    alert("Dados do Aluno/Pai incorretos!");
-                }
-            }
+    if (perfil === 'adm') {
+        // EMBUSCA SEGURA NO SUPABASE:
+        // Procura na tabela de professores se existe um utilizador que tenha permissão de ADM ou credencial correspondente
+        const { data: adminEncontrado, error } = await supabaseClient
+            .from('teachers')
+            .select('*')
+            .eq('username', identificador)
+            .eq('password', senha)
+            .maybeSingle();
+
+        if (error) {
+            console.error("Erro ao validar administrador:", error);
+            alert("Ocorreu um erro ao tentar fazer login.");
+            return;
         }
+
+        // Se encontrou o administrador cadastrado na tabela do Supabase
+        if (adminEncontrado) {
+            exibirPainelPrincipal();
+            document.getElementById('nome-perfil').innerText = `Perfil: Administrador (${adminEncontrado.full_name || 'ADM'})`;
+            document.getElementById('nav-adm').classList.remove('oculto');
+            document.getElementById('visao-adm').classList.remove('oculto');
+            alternarAbaAdm('professores');
+        } else {
+            alert("Usuário ou senha de Administrador incorretos!");
+        }
+
+    } else if (perfil === 'professor') {
+        const prof = professores.find(p => p.usuario && p.usuario.toLowerCase() === identificador.toLowerCase() && p.senha === senha);
+        if (prof) {
+            professorLogado = prof;
+            exibirPainelPrincipal();
+            document.getElementById('nome-perfil').innerText = `Perfil: ${prof.nome}`;
+            document.getElementById('nav-professor').classList.remove('oculto');
+            document.getElementById('sidebar-turmas').classList.remove('oculto');
+            alternarAbaProfessor('turmas');
+        } else {
+            alert("Professor não encontrado ou senha inválida!");
+        }
+
+    } else if (perfil === 'aluno' || perfil === 'pai') {
+        const alunoEncontrado = alunos.find(a =>
+            (perfil === 'aluno' && a.ra === identificador && a.senhaAluno === senha) ||
+            (perfil === 'pai' && a.usuarioPai && a.usuarioPai.toLowerCase() === identificador.toLowerCase() && a.senhaPai === senha)
+        );
+
+        if (alunoEncontrado) {
+            alunoLogado = alunoEncontrado;
+            exibirPainelPrincipal();
+            document.getElementById('nome-perfil').innerText = `Perfil: ${perfil === 'aluno' ? 'Aluno' : 'Pai'} (${alunoEncontrado.nome})`;
+            document.getElementById('nav-aluno').classList.remove('oculto');
+            document.getElementById('visao-aluno').classList.remove('oculto');
+            alternarAbaAluno('inicio');
+        } else {
+            alert("Dados do Aluno/Pai incorretos!");
+        }
+    }
+}
 
         function exibirPainelPrincipal() {
             document.getElementById('tela-login').classList.add('oculto');
