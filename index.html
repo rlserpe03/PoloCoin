@@ -447,33 +447,24 @@
 
     <!-- NAVEGAÇÕES -->
     <div id="nav-professor" class="nav-sub-bar oculto">
-        <button id="btn-aba-turmas" class="btn-nav ativo" onclick="alternarAbaProfessor('turmas')">🏫 Minhas
-            Turmas</button>
-        <button id="btn-aba-ocorrencias-prof" class="btn-nav" onclick="alternarAbaProfessor('ocorrencias')">📜
-            Ocorrências dos Alunos</button>
-        <button id="btn-aba-relatorios" class="btn-nav" onclick="alternarAbaProfessor('relatorios')">📊 Painel de
-            Relatórios</button>
-        <button id="btn-aba-editar-perfil" class="btn-nav" onclick="alternarAbaProfessor('perfil')">✏️ Editar Meu
-            Perfil</button>
+        <button id="btn-aba-turmas" class="btn-nav ativo" onclick="alternarAbaProfessor('turmas')">🏫 Minhas Turmas</button>
+        <button id="btn-aba-ocorrencias-prof" class="btn-nav" onclick="alternarAbaProfessor('ocorrencias')">📜 Ocorrências dos Alunos</button>
+        <button id="btn-aba-relatorios" class="btn-nav" onclick="alternarAbaProfessor('relatorios')">📊 Painel de Relatórios</button>
+        <button id="btn-aba-editar-perfil" class="btn-nav" onclick="alternarAbaProfessor('perfil')">✏️ Editar Meu Perfil</button>
     </div>
 
     <div id="nav-aluno" class="nav-sub-bar oculto">
-        <button id="btn-aba-aluno-inicio" class="btn-nav ativo" onclick="alternarAbaAluno('inicio')">🏠 Meu
-            Painel</button>
-        <button id="btn-aba-aluno-loja" class="btn-nav" onclick="alternarAbaAluno('loja')">🛒 Loja de
-            Recompensas</button>
-        <button id="btn-aba-aluno-avatar" class="btn-nav" onclick="alternarAbaAluno('avatar')">🎨 Escolher Meu
-            Avatar</button>
+        <button id="btn-aba-aluno-inicio" class="btn-nav ativo" onclick="alternarAbaAluno('inicio')">🏠 Meu Painel</button>
+        <button id="btn-aba-aluno-loja" class="btn-nav" onclick="alternarAbaAluno('loja')">🛒 Loja de Recompensas</button>
+        <button id="btn-aba-aluno-avatar" class="btn-nav" onclick="alternarAbaAluno('avatar')">🎨 Escolher Meu Avatar</button>
     </div>
 
     <div id="nav-adm" class="nav-sub-bar oculto">
-        <button id="btn-adm-professores" class="btn-nav ativo" onclick="alternarAbaAdm('professores')">👨‍🏫 Cadastrar
-            Professor</button>
+        <button id="btn-adm-professores" class="btn-nav ativo" onclick="alternarAbaAdm('professores')">👨‍🏫 Cadastrar Professor</button>
         <button id="btn-adm-turmas" class="btn-nav" onclick="alternarAbaAdm('turmas')">🏫 Cadastrar Turma</button>
         <button id="btn-adm-alunos" class="btn-nav" onclick="alternarAbaAdm('alunos')">🎓 Alunos & Turmas</button>
         <button id="btn-adm-loja" class="btn-nav" onclick="alternarAbaAdm('loja')">🎁 Gerenciar Loja</button>
-        <button id="btn-adm-pedidos" class="btn-nav" onclick="alternarAbaAdm('pedidos')">📦 Pedidos de
-            Recompensas</button>
+        <button id="btn-adm-pedidos" class="btn-nav" onclick="alternarAbaAdm('pedidos')">📦 Pedidos de Recompensas</button>
     </div>
 
     <!-- TELA DE LOGIN -->
@@ -510,40 +501,32 @@
 
         <sidebar id="sidebar-turmas" class="oculto">
             <h3>Suas Turmas</h3>
-            <div id="lista-turmas-sidebar" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-            </div>
+            <div id="lista-turmas-sidebar" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;"></div>
         </sidebar>
 
         <main>
             <!-- PROFESSOR: TURMAS -->
             <section id="visao-professor" class="oculto">
                 <h2 id="titulo-turma-atual">Selecione uma turma</h2>
-                <p style="color: #666; font-size: 0.9rem; margin-top: 4px;">Clique no card do aluno para lançar pontos,
-                    descontos ou ocorrências.</p>
+                <p style="color: #666; font-size: 0.9rem; margin-top: 4px;">Clique no card do aluno para lançar pontos, descontos ou ocorrências.</p>
                 <div id="grid-alunos-professor" class="grid-alunos"></div>
             </section>
 
-            <!-- PROFESSOR: RELATÓRIO DE OCORRÊNCIAS COM FILTROS EM CASCATA (TURMA -> ALUNO) -->
+            <!-- PROFESSOR: RELATÓRIO DE OCORRÊNCIAS COM FILTROS EM CASCATA -->
             <section id="visao-ocorrencias-professor" class="oculto">
                 <div class="card">
                     <h2>📜 Relatório de Ocorrências Lançadas por Você</h2>
-                    <p style="margin-bottom: 15px; color: #666;">Filtre primeiro por turma para depois selecionar um
-                        aluno específico.</p>
+                    <p style="margin-bottom: 15px; color: #666;">Filtre primeiro por turma para depois selecionar um aluno específico.</p>
 
                     <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
-                        <!-- 1. FILTRO DE TURMA -->
                         <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
                             <label for="filtro-turma-ocorrencia-prof">1. Filtrar por Turma:</label>
-                            <select id="filtro-turma-ocorrencia-prof" onchange="aoMudarTurmaFiltroOcorrencias()">
-                            </select>
+                            <select id="filtro-turma-ocorrencia-prof" onchange="aoMudarTurmaFiltroOcorrencias()"></select>
                         </div>
 
-                        <!-- 2. FILTRO DE ALUNO -->
                         <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
                             <label for="filtro-aluno-ocorrencia-prof">2. Filtrar por Aluno:</label>
-                            <select id="filtro-aluno-ocorrencia-prof"
-                                onchange="carregarRelatorioOcorrenciasProfessor()">
-                            </select>
+                            <select id="filtro-aluno-ocorrencia-prof" onchange="carregarRelatorioOcorrenciasProfessor()"></select>
                         </div>
                     </div>
 
@@ -566,8 +549,7 @@
             <section id="visao-relatorio-professor" class="oculto">
                 <div class="card">
                     <h2>📊 Painel de Relatórios dos Alunos</h2>
-                    <p style="margin-bottom: 15px; color: #666;">Selecione a turma para visualizar a pontuação de todos
-                        os alunos. Clique no aluno desejado para ver o histórico detalhado.</p>
+                    <p style="margin-bottom: 15px; color: #666;">Selecione a turma para visualizar a pontuação de todos os alunos. Clique no aluno desejado para ver o histórico detalhado.</p>
 
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <div class="form-group">
@@ -616,8 +598,7 @@
             <section id="visao-perfil-professor" class="oculto">
                 <div class="card">
                     <h2>✏️ Editar Perfil do Professor</h2>
-                    <p style="margin-bottom: 15px; color: #666;">Atualize seus dados pessoais e selecione as turmas em
-                        que você está lecionando.</p>
+                    <p style="margin-bottom: 15px; color: #666;">Atualize seus dados pessoais e selecione as turmas em que você está lecionando.</p>
 
                     <div class="form-group">
                         <label for="edit-prof-nome">Seu Nome:</label>
@@ -647,12 +628,6 @@
                             <label for="adm-nome-prof">Nome do Professor:</label>
                             <input type="text" id="adm-nome-prof" placeholder="Ex: Prof. Marcão">
                         </div>
-                        
-                          <div class="form-group">
-                            <label for="adm-email-prof">Email do Professor:</label>
-                            <input type="text" id="adm-email-prof" placeholder="Ex: Prof. Marcão">
-                        </div>
-                        
                         <div class="form-group">
                             <label for="adm-usuario-prof">Usuário para Login:</label>
                             <input type="text" id="adm-usuario-prof" placeholder="Ex: prof.marcao">
@@ -749,11 +724,10 @@
                                     <th>Nome do Aluno</th>
                                     <th>Usuário Pai</th>
                                     <th>Pontos Atuais</th>
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela-alunos-turma-corpo"></tbody>
-                            <!-- Exemplo de como colocar o botão dentro da geração da tabela no JavaScript -->
-                            <button onclick="abrirModalEditar('${aluno.id}', '${aluno.full_name}')">Editar</button>
                         </table>
                     </div>
                 </div>
@@ -770,10 +744,8 @@
                             <input type="number" id="adm-pontos-produto" placeholder="Ex: 100">
                         </div>
                         <div style="display: flex; gap: 10px;">
-                            <button id="btn-salvar-produto" class="btn-acao"
-                                onclick="cadastrarOuAtualizarProduto()">Cadastrar Produto</button>
-                            <button id="btn-cancelar-edicao-produto" class="btn-acao btn-alerta oculto"
-                                onclick="cancelarEdicaoProduto()">Cancelar Edição</button>
+                            <button id="btn-salvar-produto" class="btn-acao" onclick="cadastrarOuAtualizarProduto()">Cadastrar Produto</button>
+                            <button id="btn-cancelar-edicao-produto" class="btn-acao btn-alerta oculto" onclick="cancelarEdicaoProduto()">Cancelar Edição</button>
                         </div>
                     </div>
 
@@ -795,8 +767,7 @@
                 <div id="adm-secao-pedidos" class="oculto">
                     <div class="card">
                         <h2>📦 Relatório e Controle de Entregas</h2>
-                        <p style="margin-bottom: 15px; color: #666;">Acompanhe os itens resgatados pelos alunos e marque
-                            a entrega conforme providenciá-los.</p>
+                        <p style="margin-bottom: 15px; color: #666;">Acompanhe os itens resgatados pelos alunos e marque a entrega conforme providenciá-los.</p>
 
                         <div class="form-group" style="max-width: 250px;">
                             <label for="filtro-status-pedido">Filtrar por Status:</label>
@@ -829,8 +800,7 @@
             <section id="visao-aluno" class="oculto">
                 <div id="aluno-secao-inicio">
                     <div class="card" style="text-align: center; background-color: var(--amarelo-claro);">
-                        <span id="exibir-avatar-aluno-painel"
-                            style="font-size: 4rem; display: block; margin-bottom: 5px;">🐣</span>
+                        <span id="exibir-avatar-aluno-painel" style="font-size: 4rem; display: block; margin-bottom: 5px;">🐣</span>
                         <h3 id="exibir-nome-aluno-painel" style="color: #555;">Aluno</h3>
                         <h2 style="margin-top: 10px;">Pontuação Total Disponível</h2>
                         <h1 id="exibir-pontos-aluno" style="font-size: 3.5rem; color: var(--azul-escuro);">0</h1>
@@ -852,8 +822,7 @@
                 <div id="aluno-secao-avatar" class="oculto">
                     <div class="card">
                         <h2>🎨 Escolha o seu Avatar</h2>
-                        <p style="margin-bottom: 15px; color: #666;">Clique em um dos emojis abaixo para defini-lo como
-                            seu personagem no sistema!</p>
+                        <p style="margin-bottom: 15px; color: #666;">Clique em um dos emojis abaixo para defini-lo como seu personagem no sistema!</p>
                         <div id="container-grid-avatars" class="grid-avatars"></div>
                     </div>
                 </div>
@@ -878,43 +847,81 @@
 
             <h4 style="margin-bottom: 5px; color: var(--verde);">➕ Somar Pontos (Comportamento Positivo):</h4>
             <div class="grid-comportamentos">
-                <button class="btn-comportamento" onclick="adicionarComportamento(1, 'Participação')">✋ Participação
-                    (+1)</button>
+                <button class="btn-comportamento" onclick="adicionarComportamento(1, 'Participação')">✋ Participação (+1)</button>
                 <button class="btn-comportamento" onclick="adicionarComportamento(2, 'Tarefa')">📚 Tarefa (+2)</button>
-                <button class="btn-comportamento" onclick="adicionarComportamento(3, 'Trabalho em Equipe')">🤝 Trabalho
-                    em Equipe (+3)</button>
-                <button class="btn-comportamento" onclick="adicionarComportamento(1, 'Respeito')">⭐ Respeito
-                    (+1)</button>
+                <button class="btn-comportamento" onclick="adicionarComportamento(3, 'Trabalho em Equipe')">🤝 Trabalho em Equipe (+3)</button>
+                <button class="btn-comportamento" onclick="adicionarComportamento(1, 'Respeito')">⭐ Respeito (+1)</button>
             </div>
 
             <h4 style="margin-bottom: 5px; color: var(--vermelho);">➖ Descontar Pontos (Ocorrência Rápida):</h4>
             <div class="grid-comportamentos">
-                <button class="btn-desconto" onclick="removerComportamento(1, 'Conversa paralela')">💬 Conversa
-                    (-1)</button>
-                <button class="btn-desconto" onclick="removerComportamento(2, 'Sem material')">🎒 Sem Material
-                    (-2)</button>
-                <button class="btn-desconto" onclick="removerComportamento(3, 'Uso indevido de celular')">📱 Celular
-                    (-3)</button>
+                <button class="btn-desconto" onclick="removerComportamento(1, 'Conversa paralela')">💬 Conversa (-1)</button>
+                <button class="btn-desconto" onclick="removerComportamento(2, 'Sem material')">🎒 Sem Material (-2)</button>
+                <button class="btn-desconto" onclick="removerComportamento(3, 'Uso indevido de celular')">📱 Celular (-3)</button>
                 <button class="btn-desconto" onclick="removerComportamento(1, 'Atraso na aula')">⏰ Atraso (-1)</button>
             </div>
 
             <div class="form-group" style="margin-top: 15px; border-top: 1px solid #ccc; padding-top: 15px;">
                 <label for="modal-input-ocorrencia">Registrar Ocorrência Personalizada:</label>
-                <textarea id="modal-input-ocorrencia" rows="2"
-                    placeholder="Ex: Atitude inadequada durante o intervalo."></textarea>
+                <textarea id="modal-input-ocorrencia" rows="2" placeholder="Ex: Atitude inadequada durante o intervalo."></textarea>
 
                 <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
-                    <label for="modal-input-desconto" style="margin: 0; white-space: nowrap; font-size: 0.9rem;">Pontos
-                        a descontar:</label>
+                    <label for="modal-input-desconto" style="margin: 0; white-space: nowrap; font-size: 0.9rem;">Pontos a descontar:</label>
                     <input type="number" id="modal-input-desconto" min="0" value="0" style="width: 80px; padding: 5px;">
-                    <button class="btn-acao btn-perigo" style="flex: 1;" onclick="salvarNovaOcorrencia()">Salvar
-                        Ocorrência</button>
+                    <button class="btn-acao btn-perigo" style="flex: 1;" onclick="salvarNovaOcorrencia()">Salvar Ocorrência</button>
                 </div>
             </div>
 
             <div style="margin-top: 10px;">
                 <h4 style="margin-bottom: 8px;">Histórico Recente:</h4>
                 <div id="modal-lista-ocorrencias" style="max-height: 100px; overflow-y: auto;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE EDIÇÃO COMPLETA DO ALUNO (ADM) -->
+    <div id="modal-editar-aluno" class="modal-overlay oculto">
+        <div class="modal-content">
+            <span class="modal-fechar" onclick="fecharModalEditarAluno()">&times;</span>
+            <h2 style="margin-bottom: 15px; color: var(--azul-escuro);">✏️ Editar Dados do Aluno</h2>
+            
+            <input type="hidden" id="edit-aluno-id">
+
+            <div class="form-group">
+                <label for="edit-aluno-nome">Nome Completo:</label>
+                <input type="text" id="edit-aluno-nome">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="form-group">
+                    <label for="edit-aluno-ra">RA do Aluno:</label>
+                    <input type="text" id="edit-aluno-ra">
+                </div>
+                <div class="form-group">
+                    <label for="edit-aluno-senha">Senha do Aluno:</label>
+                    <input type="password" id="edit-aluno-senha">
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div class="form-group">
+                    <label for="edit-aluno-usuario-pai">Usuário do Pai:</label>
+                    <input type="text" id="edit-aluno-usuario-pai">
+                </div>
+                <div class="form-group">
+                    <label for="edit-aluno-senha-pai">Senha do Pai:</label>
+                    <input type="password" id="edit-aluno-senha-pai">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="edit-aluno-turma">Turma:</label>
+                <select id="edit-aluno-turma"></select>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="btn-acao btn-sucesso" onclick="salvarEdicaoAluno()">Salvar Alterações</button>
+                <button class="btn-acao btn-perigo" onclick="fecharModalEditarAluno()">Cancelar</button>
             </div>
         </div>
     </div>
@@ -1072,7 +1079,7 @@
 
         /* MODAL POP-UP (NOTAS, DESCONTOS E OCORRÊNCIAS) */
         function abrirModalAluno(idAluno) {
-            alunoSelecionadoModal = alunos.find(a => a.id === idAluno);
+            alunoSelecionadoModal = alunos.find(a => String(a.id) === String(idAluno));
             if (!alunoSelecionadoModal) return;
 
             document.getElementById('modal-avatar').innerText = alunoSelecionadoModal.avatar || "🐣";
@@ -1107,7 +1114,6 @@
 
             alunoSelecionadoModal.ocorrencias.unshift(novoItem);
 
-            // Atualização no Supabase
             await supabaseClient
                 .from('students')
                 .update({ 
@@ -1135,7 +1141,6 @@
 
             alunoSelecionadoModal.ocorrencias.unshift(novoItem);
 
-            // Atualização no Supabase
             await supabaseClient
                 .from('students')
                 .update({ 
@@ -1172,7 +1177,6 @@
 
             alunoSelecionadoModal.ocorrencias.unshift(novaOcorrenciaObj);
 
-            // Gravação no Supabase
             await supabaseClient
                 .from('students')
                 .update({ 
@@ -1420,7 +1424,6 @@
             professorLogado.senha = novaSenha;
             professorLogado.turmasAtribuidas = turmasSelecionadas;
 
-            // Atualização do perfil do Professor no Supabase
             await supabaseClient
                 .from('teachers')
                 .update({ 
@@ -1520,7 +1523,6 @@
                     data: dataAtual
                 });
 
-                // 1. Atualizar saldo e histórico do Aluno no Supabase
                 await supabaseClient
                     .from('students')
                     .update({
@@ -1529,7 +1531,6 @@
                     })
                     .eq('id', alunoLogado.id);
 
-                // 2. Registar o Pedido no Supabase
                 await supabaseClient
                     .from('orders')
                     .insert([{
@@ -1564,7 +1565,6 @@
             if (!alunoLogado) return;
             alunoLogado.avatar = emojiEscolhido;
 
-            // Atualização no Supabase
             await supabaseClient
                 .from('students')
                 .update({ avatar: emojiEscolhido })
@@ -1639,7 +1639,6 @@
 
             if (!nome || !usuario || !senha) return alert("Preencha todos os campos do professor!");
 
-            // Inserção no Supabase
             const { error } = await supabaseClient
                 .from('teachers')
                 .insert([{
@@ -1715,14 +1714,14 @@
             corpo.innerHTML = "";
 
             if (!turmaSelecionada) {
-                corpo.innerHTML = "<tr><td colspan='4'>Nenhuma turma selecionada.</td></tr>";
+                corpo.innerHTML = "<tr><td colspan='5'>Nenhuma turma selecionada.</td></tr>";
                 return;
             }
 
             const alunosDaTurma = alunos.filter(a => a.turma === turmaSelecionada);
 
             if (alunosDaTurma.length === 0) {
-                corpo.innerHTML = "<tr><td colspan='4' style='text-align:center; color:#777;'>Nenhum aluno cadastrado nesta turma.</td></tr>";
+                corpo.innerHTML = "<tr><td colspan='5' style='text-align:center; color:#777;'>Nenhum aluno cadastrado nesta turma.</td></tr>";
                 return;
             }
 
@@ -1733,6 +1732,9 @@
                         <td><strong>${aluno.avatar || '🐣'} ${aluno.nome}</strong></td>
                         <td><code>${aluno.usuarioPai}</code></td>
                         <td><strong style="color: var(--azul-escuro);">${aluno.pontos} pts</strong></td>
+                        <td>
+                            <button class="btn-editar" onclick="abrirModalEditarAluno('${aluno.id}')">✏️ Editar</button>
+                        </td>
                     </tr>
                 `;
             });
@@ -1748,7 +1750,6 @@
 
             if (!nome || !ra || !senhaAluno || !usuarioPai || !senhaPai) return alert("Preencha todos os campos!");
 
-            // Gravação no Supabase
             const { error } = await supabaseClient
                 .from('students')
                 .insert([{
@@ -1775,6 +1776,69 @@
             document.getElementById('adm-usuario-pai').value = "";
             document.getElementById('adm-senha-pai').value = "";
 
+            await carregarDados();
+            carregarAlunosPorTurmaAdm();
+        }
+
+        /* EDIÇÃO DE ALUNO (ADM) */
+        function abrirModalEditarAluno(idAluno) {
+            const aluno = alunos.find(a => String(a.id) === String(idAluno));
+            if (!aluno) return;
+
+            document.getElementById('edit-aluno-id').value = aluno.id;
+            document.getElementById('edit-aluno-nome').value = aluno.nome;
+            document.getElementById('edit-aluno-ra').value = aluno.ra;
+            document.getElementById('edit-aluno-senha').value = aluno.senhaAluno;
+            document.getElementById('edit-aluno-usuario-pai').value = aluno.usuarioPai;
+            document.getElementById('edit-aluno-senha-pai').value = aluno.senhaPai;
+
+            // Popular select de turmas na edição
+            const selectTurma = document.getElementById('edit-aluno-turma');
+            selectTurma.innerHTML = "";
+            turmas.forEach(t => {
+                const selected = t === aluno.turma ? "selected" : "";
+                selectTurma.innerHTML += `<option value="${t}" ${selected}>${t}</option>`;
+            });
+
+            document.getElementById('modal-editar-aluno').classList.remove('oculto');
+        }
+
+        function fecharModalEditarAluno() {
+            document.getElementById('modal-editar-aluno').classList.add('oculto');
+        }
+
+        async function salvarEdicaoAluno() {
+            const id = document.getElementById('edit-aluno-id').value;
+            const nome = document.getElementById('edit-aluno-nome').value.trim();
+            const ra = document.getElementById('edit-aluno-ra').value.trim();
+            const senhaAluno = document.getElementById('edit-aluno-senha').value.trim();
+            const usuarioPai = document.getElementById('edit-aluno-usuario-pai').value.trim();
+            const senhaPai = document.getElementById('edit-aluno-senha-pai').value.trim();
+            const turma = document.getElementById('edit-aluno-turma').value;
+
+            if (!nome || !ra || !senhaAluno || !usuarioPai || !senhaPai) {
+                return alert("Preencha todos os campos do aluno!");
+            }
+
+            const { error } = await supabaseClient
+                .from('students')
+                .update({
+                    full_name: nome,
+                    registration_number: ra,
+                    student_password: senhaAluno,
+                    parent_username: usuarioPai,
+                    parent_password: senhaPai,
+                    grade_level: turma
+                })
+                .eq('id', id);
+
+            if (error) {
+                alert("Erro ao atualizar dados do aluno: " + error.message);
+                return;
+            }
+
+            alert("Dados do aluno atualizados com sucesso!");
+            fecharModalEditarAluno();
             await carregarDados();
             carregarAlunosPorTurmaAdm();
         }
@@ -1894,7 +1958,6 @@
 
             pedido.entregue = !pedido.entregue;
 
-            // Atualização no Supabase
             await supabaseClient
                 .from('orders')
                 .update({ delivered: pedido.entregue })
@@ -1989,71 +2052,7 @@
             document.getElementById('conteudo-relatorio-aluno').classList.remove('oculto');
             document.getElementById('conteudo-relatorio-aluno').scrollIntoView({ behavior: 'smooth' });
         }
-
-
-        // COLA ESTAS FUNÇÕES DENTRO DA TUA TAG <script> JÁ EXISTENTE
-
-// 1. Função que abre a janela com os dados do aluno preenchidos
-function abrirModalEditar(id, nomeAtual) {
-  document.getElementById('editAlunoId').value = id;
-  document.getElementById('editAlunoNome').value = nomeAtual;
-  document.getElementById('editAlunoSenha').value = ''; // Limpa o campo da senha
-  document.getElementById('modalEditarAluno').style.display = 'block';
-}
-
-// 2. Função que fecha a janela de edição
-function fecharModalEditar() {
-  document.getElementById('modalEditarAluno').style.display = 'none';
-}
-
-// 3. Função que envia as alterações para a base de dados Supabase
-async function salvarEdicaoAluno() {
-  const id = document.getElementById('editAlunoId').value;
-  const novoNome = document.getElementById('editAlunoNome').value;
-  const novaSenha = document.getElementById('editAlunoSenha').value;
-
-  // Monta os dados atualizados
-  const dadosAtualizados = { full_name: novoNome };
-  
-  // Se o utilizador digitou uma nova senha, inclui na atualização
-  if (novaSenha.trim() !== "") {
-    dadosAtualizados.password = novaSenha;
-  }
-
-  // Atualiza no Supabase
-  const { data, error } = await supabaseClient
-    .from('students')
-    .update(dadosAtualizados)
-    .eq('id', id);
-
-  if (error) {
-    alert('Erro ao atualizar aluno: ' + error.message);
-  } else {
-    alert('Dados do aluno atualizados com sucesso!');
-    fecharModalEditar();
-    if (typeof carregarDados === 'function') carregarDados(); // Recarrega a tabela na tela
-  }
-}
     </script>
-
-    <!-- Modal / Formulário de Edição de Aluno -->
-<div id="modalEditarAluno" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5);">
-  <div style="background: white; padding: 20px; margin: 10% auto; width: 300px; border-radius: 8px;">
-    <h3>Editar Aluno</h3>
-    
-    <!-- Campo oculto para guardar o ID do aluno -->
-    <input type="hidden" id="editAlunoId">
-
-    <label>Nome do Aluno:</label><br>
-    <input type="text" id="editAlunoNome" style="width: 100%; margin-bottom: 10px;"><br>
-
-    <label>Nova Senha:</label><br>
-    <input type="password" id="editAlunoSenha" placeholder="Digite a nova senha" style="width: 100%; margin-bottom: 15px;"><br>
-
-    <button onclick="salvarEdicaoAluno()">Salvar Alterações</button>
-    <button onclick="fecharModalEditar()">Cancelar</button>
-  </div>
-</div>
 </body>
 
 </html>
