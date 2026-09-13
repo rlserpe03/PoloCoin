@@ -1987,6 +1987,51 @@
             document.getElementById('conteudo-relatorio-aluno').classList.remove('oculto');
             document.getElementById('conteudo-relatorio-aluno').scrollIntoView({ behavior: 'smooth' });
         }
+
+
+        // COLA ESTAS FUNÇÕES DENTRO DA TUA TAG <script> JÁ EXISTENTE
+
+// 1. Função que abre a janela com os dados do aluno preenchidos
+function abrirModalEditar(id, nomeAtual) {
+  document.getElementById('editAlunoId').value = id;
+  document.getElementById('editAlunoNome').value = nomeAtual;
+  document.getElementById('editAlunoSenha').value = ''; // Limpa o campo da senha
+  document.getElementById('modalEditarAluno').style.display = 'block';
+}
+
+// 2. Função que fecha a janela de edição
+function fecharModalEditar() {
+  document.getElementById('modalEditarAluno').style.display = 'none';
+}
+
+// 3. Função que envia as alterações para a base de dados Supabase
+async function salvarEdicaoAluno() {
+  const id = document.getElementById('editAlunoId').value;
+  const novoNome = document.getElementById('editAlunoNome').value;
+  const novaSenha = document.getElementById('editAlunoSenha').value;
+
+  // Monta os dados atualizados
+  const dadosAtualizados = { full_name: novoNome };
+  
+  // Se o utilizador digitou uma nova senha, inclui na atualização
+  if (novaSenha.trim() !== "") {
+    dadosAtualizados.password = novaSenha;
+  }
+
+  // Atualiza no Supabase
+  const { data, error } = await supabaseClient
+    .from('students')
+    .update(dadosAtualizados)
+    .eq('id', id);
+
+  if (error) {
+    alert('Erro ao atualizar aluno: ' + error.message);
+  } else {
+    alert('Dados do aluno atualizados com sucesso!');
+    fecharModalEditar();
+    if (typeof carregarDados === 'function') carregarDados(); // Recarrega a tabela na tela
+  }
+}
     </script>
 
     <!-- Modal / Formulário de Edição de Aluno -->
